@@ -10,8 +10,13 @@ headers = {
 
 def fetch_website_contents(url):
     """
-    Return the title and contents of the website at the given url;
-    truncate to 2,000 characters as a sensible limit
+    Fetch a web page and return readable text content.
+
+    The function:
+    - downloads the page using a browser-like User-Agent
+    - parses HTML with BeautifulSoup
+    - removes noisy elements (script/style/img/input) from the body
+    - returns "<title>\\n\\n<body text>", truncated to 2,000 characters
     """
     response = requests.get(url, headers=headers)
     soup = BeautifulSoup(response.content, "html.parser")
@@ -27,8 +32,10 @@ def fetch_website_contents(url):
 
 def fetch_website_links(url):
     """
-    Return the links on the webiste at the given url
-    I realize this is inefficient as we're parsing twice! This is to keep the code in the lab simple.
+    Return all non-empty hyperlink targets from the page.
+
+    This re-fetches and re-parses the page separately from
+    `fetch_website_contents` to keep the lab code simple.
     Feel free to use a class and optimize it!
     """
     response = requests.get(url, headers=headers)
