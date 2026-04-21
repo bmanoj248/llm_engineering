@@ -1,3 +1,5 @@
+"""Small helpers for extracting text and links from a website."""
+
 from bs4 import BeautifulSoup
 import requests
 
@@ -8,10 +10,12 @@ headers = {
 }
 
 
-def fetch_website_contents(url):
+def fetch_website_contents(url: str) -> str:
     """
-    Return the title and contents of the website at the given url;
-    truncate to 2,000 characters as a sensible limit
+    Fetch website text content for prompt-friendly usage.
+
+    The response includes the page title and cleaned body text truncated
+    to 2,000 characters.
     """
     response = requests.get(url, headers=headers)
     soup = BeautifulSoup(response.content, "html.parser")
@@ -25,11 +29,12 @@ def fetch_website_contents(url):
     return (title + "\n\n" + text)[:2_000]
 
 
-def fetch_website_links(url):
+def fetch_website_links(url: str) -> list[str]:
     """
-    Return the links on the webiste at the given url
-    I realize this is inefficient as we're parsing twice! This is to keep the code in the lab simple.
-    Feel free to use a class and optimize it!
+    Return all non-empty links found on the website at the given URL.
+
+    This function fetches and parses the page separately from
+    `fetch_website_contents()` to keep this teaching example simple.
     """
     response = requests.get(url, headers=headers)
     soup = BeautifulSoup(response.content, "html.parser")
