@@ -36,7 +36,6 @@ def fetch_website_links(url):
 
     This re-fetches and re-parses the page separately from
     `fetch_website_contents` to keep the lab code simple.
-    I realize this is inefficient as we're parsing twice! This is to keep the code in the lab simple.
     Feel free to use a class and optimize it!
     """
     response = requests.get(url, headers=headers)
